@@ -31,7 +31,7 @@ public class registroDeVenta {
 
     public void imprimirRegistrosVenta(ArrayList<registroDeVenta> listaVentas) {
         if (listaVentas.isEmpty()) {
-            System.out.println("No hay registros de venta.");
+            System.out.println("\n---- No hay registros de venta.----\n");
         } else {
             System.out.println("Registros de Venta:");
             for (int i = 0; i < listaVentas.size(); i++) {

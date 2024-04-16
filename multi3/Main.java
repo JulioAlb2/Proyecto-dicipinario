@@ -13,20 +13,19 @@ public class Main {public static void main(String[] args) {
         Inventario objInventario = new Inventario();
         Apartado objApartado = new Apartado(objInventario);
         registroDeVenta obRegistroVenta = new registroDeVenta();
-        ventaProducto objventaProducto = new ventaProducto();
+        ventaProducto objVentaProducto = new ventaProducto();
+        objVentaProducto.setListaApartadosCliente(objApartado.getCuentaApartadoClientes());
+         ArrayList<Cliente> listaClientes = new ArrayList<>();
 
         
         int menu = 0;
         boolean valida = false;
         do {
-            System.out.println("-------------------------------------------------------------------------------Bienvenida Patricia------------------------------------------------------------------------------");
+            System.out.println("-----------------Bienvenida Patricia------------------------");
             System.out.println("Que desea realizar? \n");
-            System.out.println("1) Registro de ventas ");
-            System.out.println("2) Comprar");
-            System.out.println("3) Pagar apartado");
-            System.out.println("4) Realizar un apartado");
-            System.out.println("5) Inventario ");
-            System.out.println("6) Salir");
+            System.out.println("1) Registro de ventas 2) Realiza Pagos\n");
+            System.out.println("3) Realizar un apartado  4) Inventario \n");
+            System.out.println("5) Salir");
             while (valida == false) {
                 try {
                     menu = sc.nextInt();
@@ -42,22 +41,19 @@ public class Main {public static void main(String[] args) {
                     obRegistroVenta.imprimirRegistrosVenta(ventaProducto.getlistaVentas());
                     break;
                 case 2:
-                    objCarritoDeCompras.agregarProducto(objInventario.getListaProductos());
+                    objVentaProducto.verMenu();
                     break;
                 case 3:
-                    objApartado.pagarApartado();
+                objApartado.crearCuentaPendiente(listaProductos);
                     break;
 
                 case 4:
-                    objApartado.crearCuentaPendiente(listaProductos);
-                    break;
-                case 5:
                     objInventario.verMenu();
                     break;
 
                 default:
                     break;
             }
-        } while (menu != 6);
+        } while (menu != 5);
     }
 }

@@ -75,7 +75,7 @@ public class Inventario {
                     }
                     valida = true;
                 } catch (InputMismatchException e) {
-                    System.err.println("Oh oh, a ingresado un caracter invalido intentelo de nuevo");
+                    System.out.print("Oh oh, a ingresado un caracter invalido intentelo de nuevo");
                     sc.nextLine();
                 }
             }

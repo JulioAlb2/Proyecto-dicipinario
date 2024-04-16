@@ -17,64 +17,131 @@ public class Apartado {
     public void crearCuentaPendiente(ArrayList<Productos> inventarioProductos) {
         cuentaApartado = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        int decision = 0, opcion = 0, eliminar = 0, nuevaCantidad = 0, fechaLimiteAnticipo = 15, numCliente = 0, canProducto = 0;
+        int decision = 0, opcion = 0, eliminar = 0, nuevaCantidad = 0, fechaLimiteAnticipo = 15, numCliente = 0,
+                canProducto = 0;
         String nombreCliente = "";
         float cuentaTotal = 0, anticipo = 0, costoAnticipo = 0, saldoPendiente = 0;
+        boolean bandera = false;
 
         do {
-            try {
-                System.out.println("Estos son los productos disponibles \n");
-                for (int i = 0; i < objInventario.getListaProductos().size(); i++) {
-                    System.out.println(i + 1 + " )Nombre del producto:  "
-                            + objInventario.getListaProductos().get(i).getnombreProducto());
-                }
-                System.out.println("\n --------Indique la posicion del articulo --------");
-                decision = sc.nextInt();
-                decision--;
-
-                System.out.println("\n --------Ingrese la cantidad del producto---------- \n");
-                canProducto = sc.nextInt();
-                Productos productoApartado = objInventario.getListaProductos().get(decision);
-                productoApartado.setcantidadProducto(canProducto);
-                cuentaApartado.add(productoApartado);
-
-                System.out.println("\n -------Desea agregar otro articulo?-------- \n");
-                System.out.println("1) Si   2) No");
-                opcion = sc.nextInt();
-
-                System.out.println("\n ------Productos apartados: ----- \n ");
-                for (int i = 0; i < cuentaApartado.size(); i++) {
-                    System.out.println(
-                            cuentaApartado.get(i).getnombreProducto() + ": " + cuentaApartado.get(i).cantidadProducto());
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor, ingrese un número entero válido.");
-                sc.next(); 
+            System.out.println("Estos son los productos disponibles \n");
+            for (int i = 0; i < objInventario.getListaProductos().size(); i++) {
+                System.out.println(i + 1 + " )Nombre del producto:  "
+                        + objInventario.getListaProductos().get(i).getnombreProducto());
             }
+            System.out.println("\n --------Indique la posicion del articulo --------");
+            while (bandera == false) {
+                try {
+                    decision = sc.nextInt();
+                    while (decision <= 0 || decision > objInventario.getListaProductos().size()) {
+                        System.out.print("Intente de nuevo: ");
+                        decision = sc.nextInt();
+                    }
+                    decision--;
+                    bandera = true;
+                } catch (InputMismatchException e) {
+                    System.out.print("Intente de nuevo: ");
+                    sc.nextLine();
+                }
+            }
+            bandera = false;
+
+            System.out.println("\n --------Ingrese la cantidad del producto---------- \n");
+            while (bandera == false) {
+                try {
+                    canProducto = sc.nextInt();
+                    while (canProducto <= 0 ) {
+                        System.out.print("Intente de nuevo: ");
+                        canProducto = sc.nextInt();
+                    }
+                    bandera = true;
+                } catch (Exception e) {
+                    System.out.print("Intente de nuevo: ");
+                    sc.nextLine();
+                }
+            }
+            bandera = true;
+            Productos productoApartado = objInventario.getListaProductos().get(decision);
+            productoApartado.setcantidadProducto(canProducto);
+            cuentaApartado.add(productoApartado);
+            sc.nextLine();
+            System.out.println("\n -------Desea agregar otro articulo?-------- \n");
+            System.out.println("1) Si   2) No");
+            while (bandera == false) {
+                try {
+                    opcion = sc.nextInt();
+                    while (opcion < 1 || opcion > 2) {
+                        System.out.print("Intente de nuevo: ");
+                        opcion = sc.nextInt();
+                    }
+                    bandera = true;
+                } catch (InputMismatchException e) {
+                    System.out.print("Intente de nuevo: ");
+                    sc.nextLine();
+                }
+            }
+            bandera = false;
+
+            System.out.println("\n ------Productos apartados: ----- \n ");
+            for (int i = 0; i < cuentaApartado.size(); i++) {
+                System.out.println(
+                        cuentaApartado.get(i).getnombreProducto() + ": "
+                                + cuentaApartado.get(i).cantidadProducto());
+            }
+
         } while (opcion == 1);
 
         do {
-            try {
-                System.out.println("\n ----------Desea eliminar algun articulo? -----------\n");
-                System.out.println("1) Si  2) NO");
-                decision = sc.nextInt();
-                if (decision == 1) {
-                    for (int i = 0; i < cuentaApartado.size(); i++) {
-                        System.out.println(i + 1 + ")Nombre del articulo: " + cuentaApartado.get(i).getnombreProducto());
-
+            System.out.println("\n ----------Desea eliminar algun articulo? -----------\n");
+            System.out.println("1) Si  2) NO");
+            while (bandera== false) {
+                try {
+                    decision = sc.nextInt();
+                    while (decision <1 || decision > 2) {
+                        System.out.println("Intente de nuevo");
+                        decision = sc.nextInt();
                     }
-                    System.out.println("\n ----Indique la posicion del articulo ----\n");
-                    opcion = sc.nextInt();
+                    bandera = true;
+                } catch (InputMismatchException e) {
+                    System.out.print("Intente de nuevo: ");
                     sc.nextLine();
-                    System.out.println("\n -----Cuantos productos desea eliminar?----- \n");
-                    eliminar = sc.nextInt();
-                    nuevaCantidad = cuentaApartado.get((opcion - 1)).getcantidadProducto() - eliminar;
-                    cuentaApartado.get((opcion - 1)).setcantidadProducto(nuevaCantidad);
+                }
+                
+            }
+            bandera = false;
+            if (decision == 1) {
+                System.out.println("\n----Estos son tus productos-----\n");
+                for (int i = 0; i < cuentaApartado.size(); i++) {
+                    System.out.println(i + 1 + ")Nombre del articulo: " + cuentaApartado.get(i).getnombreProducto());
 
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor, ingrese un número entero válido.");
-                sc.next(); 
+                
+                System.out.println("\n ----Indique la posicion del articulo ----\n");
+                while (bandera == false) {
+                    try {
+                        opcion = sc.nextInt();
+                        while (opcion <=0 || opcion > cuentaApartado.size()) {
+                            System.out.println("Intentelo de nuevo");
+                            opcion = sc.nextInt();
+                        }
+                        bandera = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("intente de nuevo");
+                        sc.nextLine();
+                    }
+                }
+
+                bandera = false;
+                sc.nextLine();
+                for (int i = 0; i < cuentaApartado.size(); i++) {
+                    System.out.println("Estos son tus productos");
+                    System.out.println("Nombre: " + cuentaApartado.get(i).getnombreProducto() + " Cantidad: " + cuentaApartado.get(i).getcantidadProducto());
+                }
+                System.out.println("\n -----Cuantos productos desea eliminar?----- \n");
+                eliminar = sc.nextInt();
+                nuevaCantidad = cuentaApartado.get((opcion - 1)).getcantidadProducto() - eliminar;
+                cuentaApartado.get((opcion - 1)).setcantidadProducto(nuevaCantidad);
+
             }
 
         } while (decision == 1);
@@ -89,40 +156,39 @@ public class Apartado {
         System.out.println("-----Se requiere un anticipo del 30% ----");
 
         System.out.println("Esta es la cantidad del anticipo: $" + anticipo);
-        do {
-            try {
-                System.out.println("Ingrese el anticipo:");
-                costoAnticipo = sc.nextFloat();
-                if (anticipo < costoAnticipo) {
-                    System.out.println("Ingrese un anticipo válido. El anticipo debe ser al menos el 30% del costo total.");
+            while (bandera == false) {
+                try {
+                    System.out.print("Ingrese el anticipo: ");
+                    costoAnticipo = sc.nextFloat();
+                    if ( costoAnticipo < anticipo ) {
+                        System.out.print("Ingrese un anticipo válido. El anticipo debe ser al menos el 30% del costo total: ");
+                        costoAnticipo = sc.nextFloat();
+                    }
+                    bandera = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Por favor, ingrese un número válido.");
+                    sc.nextLine();
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor, ingrese un número flotante válido.");
-                sc.next(); 
+                
             }
-        } while (anticipo < costoAnticipo);
+            bandera = false;
 
         saldoPendiente = cuentaTotal - costoAnticipo;
-
-        System.out.println("Este es el plazo de dias para poder pagar por completo  " + fechaLimiteAnticipo + ")Dias");
-        System.out.println("Puede recoger el pedido minimo 3 días despues de haber hecho el pedido y haber saldado la cuenta ");
-        sc.next();
-
-        try {
+        System.out.print("\nEste es el plazo de dias para poder pagar por completo  " + fechaLimiteAnticipo + " )Dias\n");
             System.out.println("-----Por favor ingrese el nombre del cliente para un mejor registro----");
             sc.nextLine();
             nombreCliente = sc.nextLine();
-        } catch (InputMismatchException e) {
-            System.out.println("Por favor, ingrese un nombre válido.");
-            sc.next(); 
-        }
-
-        try {
-            System.out.println("------ Ingrese el número de teléfono del cliente ----:");
-            numCliente = sc.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("Por favor, ingrese un número entero válido.");
-            sc.next();
+        
+        while (bandera == false) {
+            try {
+                System.out.println("------ Ingrese el número de teléfono del cliente ----:");
+                numCliente = sc.nextInt();
+                bandera = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Por favor, ingrese un número entero válido.");
+                sc.next();
+            }
+            
         }
 
         Cliente cuentaCliente = new Cliente(nombreCliente, numCliente, cuentaApartado, saldoPendiente);
@@ -149,40 +215,6 @@ public class Apartado {
         return listaClientes;
     }
 
-    public void pagarApartado() {
-        int opcion = 0;
-        float pagoFinal = 0, saldoPendiente = 0;
-        Scanner sc = new Scanner(System.in);
-        try {
-            System.out.println("Estas son las cuentas pendientes");
-            for (int i = 0; i < listaClientes.size(); i++) {
-                if (listaClientes.get(i).getSaldoPendiente() != 0) {
-                    System.out.println(i + 1 + " )Cliente " + listaClientes.get(i).getNombreCliente() + "\n");
-                }
-            }
-            System.out.println("Indique la cuenta que desea pagar");
-            opcion = sc.nextInt();
-            opcion--;
-            System.out.println("Saldo pendiente" + listaClientes.get(opcion).getSaldoPendiente());
-            System.out.println("Ingrese el saldo restante: ");
-            pagoFinal = sc.nextFloat();
-            saldoPendiente = listaClientes.get(opcion).getSaldoPendiente() - pagoFinal;
-            if (saldoPendiente <= 0) {
-                System.out.println("Su cambio es: " + Math.abs(saldoPendiente));
-                listaClientes.get(opcion).setSaldoPendiente(0);
-            } else {
-                System.out.println("Su nuevo saldo pendiente es: " + saldoPendiente);
-                listaClientes.get(opcion).setSaldoPendiente(saldoPendiente);
-            }
-            if (saldoPendiente == 0) {
-                System.out.println("Ha liquidado su cuenta con éxito");
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("Por favor, ingrese un número válido.");
-            sc.next(); 
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
-        }
-    }
     
+
 }
