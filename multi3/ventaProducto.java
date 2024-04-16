@@ -137,16 +137,22 @@ public class ventaProducto {
     public void pagarApartado() {
         int opcion = 0;
         float pagoFinal = 0, saldoPendiente = 0;
-        boolean bander = false;
+        boolean bander = false, apartadosExsit = false;
+
         Scanner sc = new Scanner(System.in);
         try {
-            System.out.println("Estas son las cuentas pendientes");
+            System.out.println("-------Estas son las cuentas pendientes-------");
             for (int i = 0; i < listaApartadosCliente.size(); i++) {
                 if (listaApartadosCliente.get(i).getSaldoPendiente() != 0) {
                     System.out.println(i + 1 + " )Cliente " + listaApartadosCliente.get(i).getNombreCliente() + "\n");
+                    apartadosExsit = true;
                 }
             }
-            System.out.println("Indique la cuenta que desea pagar");
+            if (apartadosExsit != true) {
+                System.out.println("\n----No existen cuentas pendientes----\n");
+                return;
+            }
+            System.out.print("Indique la cuenta que desea pagar: ");
             while (bander == false) {
                 try {
                     opcion = sc.nextInt();

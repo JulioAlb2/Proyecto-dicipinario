@@ -26,6 +26,7 @@ public class Main {public static void main(String[] args) {
             System.out.println("1) Registro de ventas 2) Realiza Pagos\n");
             System.out.println("3) Realizar un apartado  4) Inventario \n");
             System.out.println("5) Salir");
+            System.out.print("\n---Opcion: ");
             while (valida == false) {
                 try {
                     menu = sc.nextInt();
